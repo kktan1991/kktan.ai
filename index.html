@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KK Tan | AI & Financial Automation</title>
+    
+    <!-- Google Fonts for AI/Tech Vibe -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ==========================================================================
+           AI-Driven Theme Variables
+           ========================================================================== */
+        :root {
+            /* Deep Dark Blue/Space Background */
+            --bg-base: #050B14;
+            --bg-surface: rgba(15, 23, 42, 0.6);
+            --bg-surface-hover: rgba(30, 41, 59, 0.8);
+            
+            /* Accents */
+            --accent-gold: #FFB84D;
+            --accent-gold-glow: rgba(255, 184, 77, 0.4);
+            --accent-cyan: #00E5FF;
+            --accent-cyan-glow: rgba(0, 229, 255, 0.3);
+            
+            /* Text */
+            --text-main: #F8FAFC;
+            --text-muted: #94A3B8;
+            
+            /* Typography */
+            --font-sans: 'Inter', sans-serif;
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            
+            /* Layout */
+            --max-width: 1200px;
+            --glass-border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* ==========================================================================
+           Base Styles & Reset
+           ========================================================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            color: var(--text-main);
+            background-color: var(--bg-base);
+            line-height: 1.6;
+            overflow-x: hidden;
+            
+            /* Tech Grid Background */
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 30px 30px;
+            background-position: center center;
+        }
+
+        /* Ambient Glow Effects */
+        .ambient-glow {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            z-index: -1;
+            pointer-events: none;
+        }
+        .glow-1 {
+            top: -10%; left: -10%;
+            width: 50vw; height: 50vw;
+            background: radial-gradient(circle, var(--accent-cyan-glow) 0%, transparent 70%);
+        }
+        .glow-2 {
+            bottom: -10%; right: -10%;
+            width: 60vw; height: 60vw;
+            background: radial-gradient(circle, var(--accent-gold-glow) 0%, transparent 70%);
+        }
+
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ==========================================================================
+           Typography
+           ========================================================================== */
+        h1, h2, h3 {
+            font-family: var(--font-display);
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            background: linear-gradient(to right, var(--text-main), var(--text-muted));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 2px;
+            background: var(--accent-gold);
+            box-shadow: 0 0 10px var(--accent-gold);
+        }
+
+        /* ==========================================================================
+           Glassmorphism & Components
+           ========================================================================== */
+        .glass-panel {
+            background: var(--bg-surface);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: var(--glass-border);
+            border-radius: 16px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn-gold {
+            background: rgba(255, 184, 77, 0.1);
+            color: var(--accent-gold);
+            border: 1px solid var(--accent-gold);
+            box-shadow: 0 0 15px rgba(255, 184, 77, 0.1);
+        }
+
+        .btn-gold:hover {
+            background: var(--accent-gold);
+            color: var(--bg-base);
+            box-shadow: 0 0 25px rgba(255, 184, 77, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn-cyan {
+            background: rgba(0, 229, 255, 0.1);
+            color: var(--accent-cyan);
+            border: 1px solid var(--accent-cyan);
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.1);
+        }
+
+        .btn-cyan:hover {
+            background: var(--accent-cyan);
+            color: var(--bg-base);
+            box-shadow: 0 0 25px rgba(0, 229, 255, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* ==========================================================================
+           Navigation
+           ========================================================================== */
+        nav {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            z-index: 1000;
+            background: rgba(5, 11, 20, 0.8);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+        }
+
+        .logo {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            color: var(--accent-cyan);
+            font-size: 1.2rem;
+            animation: pulse 2s infinite;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            transition: color 0.3s, text-shadow 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-gold);
+            text-shadow: 0 0 8px var(--accent-gold-glow);
+        }
+
+        .hamburger {
+            display: none;
+            background: none; border: none;
+            color: var(--text-main);
+            font-size: 1.8rem;
+            cursor: pointer;
+        }
+
+        /* ==========================================================================
+           Hero Section
+           ========================================================================== */
+        #home {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 80px;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            background: rgba(0, 229, 255, 0.1);
+            border: 1px solid rgba(0, 229, 255, 0.2);
+            border-radius: 20px;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--accent-cyan);
+            margin-bottom: 2rem;
+        }
+
+        .status-dot {
+            width: 8px; height: 8px;
+            background: var(--accent-cyan);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--accent-cyan);
+            animation: blink 1.5s infinite;
+        }
+
+        .hero-title {
+            font-size: 4.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff 0%, #94A3B8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-family: var(--font-mono);
+            font-size: 1.5rem;
+            color: var(--accent-gold);
+            margin-bottom: 1.5rem;
+            min-height: 2.4rem; /* Prevent layout shift during typing */
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 1.2em;
+            background-color: var(--accent-gold);
+            vertical-align: middle;
+            animation: blink 1s step-end infinite;
+        }
+
+        .hero-desc {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 3rem;
+            max-width: 600px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        /* ==========================================================================
+           Stats Section (Data Grid)
+           ========================================================================== */
+        #stats {
+            padding: 2rem 0 6rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+
+        .stat-card {
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 229, 255, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .stat-card:hover::before {
+            opacity: 1;
+        }
+
+        .stat-number {
+            font-family: var(--font-mono);
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 15px rgba(255,255,255,0.2);
+        }
+
+        .stat-number span {
+            color: var(--accent-gold);
+        }
+
+        .stat-label {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* ==========================================================================
+           About Section (Terminal Style)
+           ========================================================================== */
+        #about {
+            padding: 6rem 0;
+        }
+
+        .terminal-window {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #0A0F1C;
+            border: 1px solid rgba(0, 229, 255, 0.2);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        .terminal-header {
+            background: rgba(15, 23, 42, 0.9);
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .terminal-dots {
+            display: flex;
+            gap: 8px;
+        }
+
+        .terminal-dots span {
+            width: 12px; height: 12px;
+            border-radius: 50%;
+        }
+        .dot-r { background: #FF5F56; }
+        .dot-y { background: #FFBD2E; }
+        .dot-g { background: #27C93F; }
+
+        .terminal-title {
+            margin: 0 auto;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .terminal-body {
+            padding: 2.5rem;
+            font-family: var(--font-mono);
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        .prompt {
+            color: var(--accent-cyan);
+            margin-right: 10px;
+        }
+
+        .terminal-body p {
+            margin-bottom: 1.5rem;
+            color: #D4D4D8;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 2.5rem;
+            padding-top: 2rem;
+            border-top: 1px dashed rgba(255,255,255,0.1);
+        }
+
+        .tech-tag {
+            background: rgba(0, 229, 255, 0.05);
+            color: var(--accent-cyan);
+            border: 1px solid rgba(0, 229, 255, 0.2);
+            padding: 6px 14px;
+            border-radius: 4px;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            transition: all 0.3s;
+        }
+
+        .tech-tag:hover {
+            background: rgba(0, 229, 255, 0.15);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 10px rgba(0, 229, 255, 0.2);
+        }
+
+        /* ==========================================================================
+           Projects Section (Bento Grid)
+           ========================================================================== */
+        #projects {
+            padding: 6rem 0;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .project-card {
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255, 184, 77, 0.4);
+        }
+
+        .project-visual {
+            height: 160px;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(5, 11, 20, 0.9) 100%);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Subtle grid inside project visual */
+        .project-visual::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: linear-gradient(rgba(0, 229, 255, 0.1) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0, 229, 255, 0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            opacity: 0.3;
+        }
+
+        .project-body {
+            padding: 2rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-title {
+            font-size: 1.4rem;
+            color: var(--text-main);
+            margin-bottom: 1rem;
+        }
+
+        .project-desc {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 2rem;
+        }
+
+        .project-tag {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--accent-gold);
+            background: rgba(255, 184, 77, 0.05);
+            padding: 4px 10px;
+            border-radius: 4px;
+            border: 1px solid rgba(255, 184, 77, 0.2);
+        }
+
+        .project-links {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .project-links .btn {
+            padding: 10px;
+            font-size: 0.8rem;
+        }
+
+        /* ==========================================================================
+           Contact Section
+           ========================================================================== */
+        #contact {
+            padding: 8rem 0;
+            position: relative;
+        }
+
+        .contact-wrapper {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 4rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 50%; transform: translateX(-50%);
+            width: 100px; height: 2px;
+            background: var(--accent-cyan);
+            box-shadow: 0 0 20px var(--accent-cyan);
+        }
+
+        .contact-subtitle {
+            font-family: var(--font-mono);
+            color: var(--text-muted);
+            margin-bottom: 3rem;
+        }
+
+        .contact-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .contact-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            padding: 16px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: var(--text-main);
+            font-family: var(--font-mono);
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .contact-btn:hover {
+            background: rgba(255, 184, 77, 0.1);
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+            transform: scale(1.02);
+            box-shadow: 0 0 20px rgba(255, 184, 77, 0.15);
+        }
+
+        .contact-icon {
+            font-size: 1.2rem;
+        }
+
+        /* ==========================================================================
+           Footer
+           ========================================================================== */
+        footer {
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding: 2rem 0;
+            text-align: center;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            background: rgba(5, 11, 20, 0.9);
+        }
+
+        /* ==========================================================================
+           Animations
+           ========================================================================== */
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; text-shadow: 0 0 5px var(--accent-cyan); }
+            50% { opacity: 0.5; text-shadow: none; }
+        }
+
+        /* ==========================================================================
+           Responsive Design
+           ========================================================================== */
+        @media (max-width: 1024px) {
+            .stats-grid, .projects-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .hero-title { font-size: 3.5rem; }
+        }
+
+        @media (max-width: 768px) {
+            .hamburger { display: block; }
+
+            .nav-links {
+                position: absolute;
+                top: 80px; left: 0; width: 100%;
+                background: rgba(5, 11, 20, 0.95);
+                backdrop-filter: blur(16px);
+                flex-direction: column;
+                gap: 0;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease-out;
+                border-bottom: 1px solid rgba(255,255,255,0.05);
+            }
+
+            .nav-links.active { max-height: 300px; }
+            .nav-links li { text-align: center; border-top: 1px solid rgba(255,255,255,0.05); }
+            .nav-links a { display: block; padding: 20px 0; }
+
+            .hero-title { font-size: 2.8rem; }
+            .hero-subtitle { font-size: 1.2rem; }
+            .hero-buttons { flex-direction: column; }
+            
+            .stats-grid, .projects-grid { grid-template-columns: 1fr; }
+            .terminal-body { padding: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Ambient Background Glows -->
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="container nav-container">
+            <a href="#home" class="logo">
+                <span class="logo-icon">⚡</span> KK_Tan
+            </a>
+            <button class="hamburger" id="hamburger" aria-label="Menu">☰</button>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#home">// HOME</a></li>
+                <li><a href="#about">// SYSTEM.ABOUT</a></li>
+                <li><a href="#projects">// MODULES</a></li>
+                <li><a href="#contact">// CONNECT</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header id="home">
+        <div class="container">
+            <div class="hero-content">
+                <div class="status-badge">
+                    <div class="status-dot"></div>
+                    SYSTEM_ONLINE
+                </div>
+                <h1 class="hero-title">KK Tan</h1>
+                <h2 class="hero-subtitle" id="typewriter-text"><span class="cursor"></span></h2>
+                <p class="hero-desc">Transforming manual finance processes into high-speed automated pipelines. Leveraging Python, AI, and data engineering to eliminate repetitive work.</p>
+                <div class="hero-buttons">
+                    <a href="#projects" class="btn btn-gold">Initialize Modules</a>
+                    <a href="#contact" class="btn btn-cyan">Establish Connection</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Stats Section -->
+    <section id="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card glass-panel">
+                    <div class="stat-number">>10<span>_</span></div>
+                    <div class="stat-label">Years Exp</div>
+                </div>
+                <div class="stat-card glass-panel">
+                    <div class="stat-number">50<span>+</span></div>
+                    <div class="stat-label">Deployments</div>
+                </div>
+                <div class="stat-card glass-panel">
+                    <div class="stat-number">60<span>%</span></div>
+                    <div class="stat-label">Cost Optimization</div>
+                </div>
+                <div class="stat-card glass-panel">
+                    <div class="stat-number">99<span>%</span></div>
+                    <div class="stat-label">Accuracy Rate</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <h2 class="section-title">System.About()</h2>
+            <div class="terminal-window">
+                <div class="terminal-header">
+                    <div class="terminal-dots">
+                        <span class="dot-r"></span>
+                        <span class="dot-y"></span>
+                        <span class="dot-g"></span>
+                    </div>
+                    <div class="terminal-title">kk_tan@automation-engine:~</div>
+                </div>
+                <div class="terminal-body">
+                    <p><span class="prompt">root@kk-tan:~$</span> cat profile.txt</p>
+                    <p>I'm a Financial Automation Specialist based in Malaysia, with 10+ years of hands-on experience in Shared Service Centers (SSC).</p>
+                    <p>I've engineered solutions at NOL Global Services Centre, Ninja Van, and Hytech, successfully leading 50+ finance process automation projects.</p>
+                    <p>My core directive is transforming slow manual processes into fast, automated systems. Whether it's billing reconciliation, complex rebate algorithms, or data pipelines, I architect real value using modern tech stacks.</p>
+                    
+                    <p><span class="prompt">root@kk-tan:~$</span> ls ./tech_stack/</p>
+                    <div class="tech-stack">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">Streamlit</span>
+                        <span class="tech-tag">n8n</span>
+                        <span class="tech-tag">Pandas</span>
+                        <span class="tech-tag">SQL</span>
+                        <span class="tech-tag">Excel_Automation</span>
+                        <span class="tech-tag">Data_Pipelines</span>
+                        <span class="tech-tag">Ollama_LLM</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+        <div class="container">
+            <h2 class="section-title">Deployed_Modules</h2>
+            <div class="projects-grid">
+                
+                <!-- Project 1 -->
+                <div class="project-card glass-panel">
+                    <div class="project-visual">
+                        📊
+                    </div>
+                    <div class="project-body">
+                        <h3 class="project-title">Billing Reconciliation Engine</h3>
+                        <p class="project-desc">Automated billing reconciliation for disparate data sources. Reduced processing time from 5 days to 1 day with 99.9% accuracy. Features CSV ingestion, fuzzy matching, and anomaly detection.</p>
+                        <div class="project-tags">
+                            <span class="project-tag">Streamlit</span>
+                            <span class="project-tag">Python</span>
+                            <span class="project-tag">Pandas</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://billing-demo.streamlit.app" target="_blank" class="btn btn-cyan">Run Demo</a>
+                            <a href="https://github.com/kktan/billing-reconciliation" target="_blank" class="btn btn-gold">Source Code</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="project-card glass-panel">
+                    <div class="project-visual">
+                        ⚡
+                    </div>
+                    <div class="project-body">
+                        <h3 class="project-title">Rebate Calculation Algorithm</h3>
+                        <p class="project-desc">Handles complex rebate logic with tiered discounts and dynamic bonus rewards. Compressed calculation time from 3 days to 30 minutes, achieving an 87% reduction in manual overhead.</p>
+                        <div class="project-tags">
+                            <span class="project-tag">Python</span>
+                            <span class="project-tag">Streamlit</span>
+                            <span class="project-tag">Algorithms</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://rebate-demo.streamlit.app" target="_blank" class="btn btn-cyan">Run Demo</a>
+                            <a href="https://github.com/kktan/rebate-calculator" target="_blank" class="btn btn-gold">Source Code</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="project-card glass-panel">
+                    <div class="project-visual">
+                        📈
+                    </div>
+                    <div class="project-body">
+                        <h3 class="project-title">Financial Data Dashboard</h3>
+                        <p class="project-desc">Real-time financial analytics interface with automated report generation. Supports multi-dimensional analysis, interactive data drill-down, and automated PDF exports.</p>
+                        <div class="project-tags">
+                            <span class="project-tag">Streamlit</span>
+                            <span class="project-tag">Plotly</span>
+                            <span class="project-tag">Data_Viz</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://dashboard-demo.streamlit.app" target="_blank" class="btn btn-cyan">Run Demo</a>
+                            <a href="https://github.com/kktan/financial-dashboard" target="_blank" class="btn btn-gold">Source Code</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="container">
+            <div class="contact-wrapper glass-panel">
+                <h2 class="section-title" style="margin-bottom: 1rem;">Initiate_Handshake</h2>
+                <p class="contact-subtitle">Awaiting input: Have a finance process you want to automate?</p>
+                
+                <div class="contact-buttons">
+                    <a href="mailto:kktan@email.com" class="contact-btn">
+                        <span class="contact-icon">📧</span> [ EXECUTE: Send_Email ]
+                    </a>
+                    <a href="https://wa.me/60123456789" target="_blank" class="contact-btn">
+                        <span class="contact-icon">💬</span> [ EXECUTE: WhatsApp_Ping ]
+                    </a>
+                    <a href="https://linkedin.com/in/kktan" target="_blank" class="contact-btn">
+                        <span class="contact-icon">🔗</span> [ ACCESS: LinkedIn_Profile ]
+                    </a>
+                    <a href="https://upwork.com/freelancers/kktan" target="_blank" class="contact-btn">
+                        <span class="contact-icon">💼</span> [ ACCESS: Upwork_Contract ]
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>System.exit(0); // &copy; 2024 KK Tan. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Mobile Menu & Typewriter Effect -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mobile Menu Logic
+            const hamburger = document.getElementById('hamburger');
+            const navLinks = document.getElementById('nav-links');
+            const links = navLinks.querySelectorAll('a');
+
+            hamburger.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+
+            links.forEach(link => {
+                link.addEventListener('click', () => {
+                    navLinks.classList.remove('active');
+                });
+            });
+
+            // Typewriter Effect Logic
+            const textToType = "Financial Automation Engineer";
+            const typeElement = document.getElementById('typewriter-text');
+            
+            // Create text container and cursor
+            typeElement.innerHTML = '<span id="text-container"></span><span class="cursor"></span>';
+            const textContainer = document.getElementById('text-container');
+            
+            let i = 0;
+            function typeWriter() {
+                if (i < textToType.length) {
+                    textContainer.innerHTML += textToType.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 100); // Typing speed
+                }
+            }
+            
+            // Start typing after a short delay
+            setTimeout(typeWriter, 500);
+        });
+    </script>
+</body>
+</html>
